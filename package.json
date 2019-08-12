@@ -1,0 +1,25 @@
+{
+  "name": "workshop-apr19",
+  "version": "1.0.0",
+  "description": "Artificial intelligence with Mihok from TorontoJS, building on basic knowledge we will discover and build Neural Networks from scratch to get a better understanding of how they work.",
+  "main": "helpers/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --progress --colors --hide-modules"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mihok/workshop-apr19.git"
+  },
+  "author": "Matthew Mihok <matthew@mihok.computer>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mihok/workshop-apr19/issues"
+  },
+  "homepage": "https://github.com/mihok/workshop-apr19#readme",
+  "dependencies": {
+    "gauss-random": "^1.0.1",
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.3.0"
+  }
+}
