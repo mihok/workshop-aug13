@@ -168,18 +168,16 @@ class Neuron {
   }
 }
 
+const w = [0, 1];
+const b = 0;
 
 console.log('Create neural network');
-const nn = new Network(
-  // weights
-  [1, 1, 1, 1, 1, 1],
-  // bias
-  [0, 0, 0],
-  // activation function
-  Math.sigmoid,
-  // loss function
-  Math.meanSquaredError,
-);
+const n = new Neuron(w, b, Math.sigmoid);
+
+const x = [2, 3];
+console.log('Run neural network against inputs');
+console.log(n.activate(x));
+
 
   </script>
 </body>
