@@ -72,134 +72,6 @@ class Network {
     this.output = new Neuron(o1Weights, this.biases[O1], activateFn );
   }
 
-  // train() takes in a set of data to train on, and corrisponding answers 
-  train (data = [], answers = [], iterations = 1000, rate = 0.1) {
-    let weightMultiplier = [];
-    let biasMultiplier = [];
-    let lossData = [];
-
-    // We'll iterate over the data several times to adjust the weights 
-    for (let i = 0; i < iterations; i += 1) {
-      for (let d in data) {
-        // Get our individual neuron data to calculate things
-
-        // Calculate our 1st hidden layer neuron
-        let h1Sum = this.hidden[H1].sum(data[d]);
-        let h1 = this.hidden[H1].activatorFn(h1Sum);
-
-        // Calculate our 2nd hidden layer neuron
-        let h2Sum = this.hidden[H2].sum(data[d]);
-        let h2 = this.hidden[H2].activatorFn(h2Sum);
-
-        // Calcualte our output layer neuron
-        let o1Sum = this.output.sum([h1, h2]);
-        let o1 = this.output.activatorFn(o1Sum);
-
-        // Here is the networks current prediction
-        let pred = o1;
-
-
-        // Update our weights
-
-        weightMultiplier[W1] = Trainer.multiply(
-          Trainer.lossPartialDeriv(answers[d], pred),
-          Trainer.outputPartialDeriv(this.weights[W5], o1Sum),
-          Trainer.hiddenPartialDeriv(data[d][I1], h1Sum),
-        )
-
-        this.weights[W1] = this.weights[W1] - (rate * weightMultiplier[W1]);
-
-        
-        weightMultiplier[W2] = Trainer.multiply(
-          Trainer.lossPartialDeriv(answers[d], pred),
-          Trainer.outputPartialDeriv(this.weights[W5], o1Sum),
-          Trainer.hiddenPartialDeriv(data[d][I2], h1Sum),
-        );
-
-        this.weights[W2] = this.weights[W2] - (rate * weightMultiplier[W2]);
-
-
-        weightMultiplier[W3] = Trainer.multiply(
-          Trainer.lossPartialDeriv(answers[d], pred),
-          Trainer.outputPartialDeriv(this.weights[W6], o1Sum),
-          Trainer.hiddenPartialDeriv(data[d][I1], h2Sum),
-        );
-
-        this.weights[W3] = this.weights[W3] - (rate * weightMultiplier[W3]);
- 
-        weightMultiplier[W4] = Trainer.multiply(
-          Trainer.lossPartialDeriv(answers[d], pred),
-          Trainer.outputPartialDeriv(this.weights[W6], o1Sum),
-          Trainer.hiddenPartialDeriv(data[d][I2], h2Sum),
-        )
-
-        this.weights[W4] = this.weights[W4] - (rate * weightMultiplier[W4]);
-
-        
-        weightMultiplier[W5] = Trainer.multiply(
-          Trainer.lossPartialDeriv(answers[d], pred),
-          Trainer.outputPartialDeriv(h1, o1Sum),
-        );
-
-        this.weights[W5] = this.weights[W5] - (rate * weightMultiplier[W5]);
-
-
-        weightMultiplier[W6] = Trainer.multiply(
-          Trainer.lossPartialDeriv(answers[d], pred),
-          Trainer.outputPartialDeriv(h2, o1Sum),
-        );
-
-        this.weights[W6] = this.weights[W6] - (rate * weightMultiplier[W6]);
-
-
-        // Update our biases
-
-        biasMultiplier[H1] = Trainer.multiply(
-          Trainer.lossPartialDeriv(answers[d], pred),
-          Trainer.hiddenPartialDeriv(this.weights[W5], o1Sum),
-          Math.derivSigmoid(h1Sum),
-        )
-
-        this.biases[H1] = this.biases[H1] - (rate * biasMultiplier[H1]);
-
-        biasMultiplier[H2] = Trainer.multiply(
-          Trainer.lossPartialDeriv(answers[d], pred),
-          Trainer.hiddenPartialDeriv(this.weights[W6], o1Sum),
-          Math.derivSigmoid(h2Sum),
-        )
-
-        this.biases[H2] = this.biases[H2] - (rate * biasMultiplier[H2]);
-
-        biasMultiplier[O1] = Trainer.multiply(
-          Trainer.lossPartialDeriv(answers[d], pred),
-          Math.derivSigmoid(o1Sum),
-        )
-
-        this.biases[O1] = this.biases[O1] - (rate * biasMultiplier[O1]);
-
-        // Reload our neurons with the new biases/weights
-        this.reload();
-      }
-
-      // Finally lets calculate our loss and output it for sanity
-      if (i % 10 === 0) {
-        // Generate an array of the output of our network at this time for each
-        // row of data, then 
-        let currentPrediction = [];
-        data.forEach((row) => {
-          currentPrediction.push(this.query(row));
-        }, this);
-        let loss = this.lossFn(answers, currentPrediction);
-
-        lossData.push(loss);
-
-        console.log(`iteration #${i}, loss: ${loss}`);
-      }
-    }
-
-    console.graph(lossData);
-  }
-
   reload () {
     // Now let's update our weights and biases to minimize loss
         
@@ -296,38 +168,6 @@ class Neuron {
   }
 }
 
-// const w = [0, 1];
-// const b = 0;
-
-// const nn = new Network(w, b, Math.sigmoid);
-
-// const x = [2, 3];
-// console.log('Run neural network against inputs');
-// console.log(nn.run(x));
-
-
-// Let's generate our training data in a machine-readable form
-const data = [];
-// Shift all our weight data by this much
-const weightShift = shifter(135);
-// Shift all our height data by this much
-const heightShift = shifter(66);
-
-for (let row in DATA.whg) {
-  data.push([
-    // I1
-    weightShift(DATA.whg[row].weight),
-    // I2
-    heightShift(DATA.whg[row].height),
-  ]);
-};
-
-// Let's generate our training "answer" data in a machine-readable form
-const answers = [];
-for (let row in DATA.whg) {
-  answers.push(DATA.whg[row].gender);
-}
-
 
 console.log('Create neural network');
 const nn = new Network(
@@ -340,21 +180,6 @@ const nn = new Network(
   // loss function
   Math.meanSquaredError,
 );
-
-console.log('Train neural network', data, answers);
-nn.train(data, answers, 1000, 0.1)
-
-console.log('Is Emily a girl or a boy')
-console.log('Answer', nn.query([
-  weightShift(126),
-  heightShift(63),
-]));
-
-console.log('Is Frank a girl or a boy')
-console.log('Answer', nn.query([
-  weightShift(153),
-  heightShift(68),
-]));
 
   </script>
 </body>
