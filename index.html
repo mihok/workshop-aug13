@@ -16,54 +16,6 @@
   <script type="text/javascript" src="helpers/renderers.lib.js"></script>
   <script type="text/javascript">
 
-// Our quintessential neuron! huzah!
-class Neuron {
-
-  // The neuron fields
-  bias;
-  weights;
-  activatorFn = function (x) { throw new Error('not implemented'); };
-
-  activate (inputs = []) {
-    if (inputs.length !== this.weights.length) {
-      throw new Error('input and weight shape mismatch');
-    }
-   
-    let output = 0;
-    let buffer = [];
-
-    // Multiply the weights against the inputs
-    for (let i in inputs) {
-        buffer[i] = inputs[i] * this.weights[i];
-    }
-
-    // Add them all up
-    for (let b in buffer) {
-        output += buffer[b];
-    }
-
-    // Finally add our bias
-    output += this.bias
-
-    // Activate the neuron (or not), based on applying the sigmoid function
-    // to the output of our inputs, weights, and biases.
-    let result = this.activatorFn(output);
-    
-    return result;
-  }
-}
-
-console.log('Create neural network');
-const n = new Neuron();
-n.bias = 0;
-n.weights = [0, 1];
-n.activatorFn = Math.sigmoid;
-
-const x = [2, 3];
-console.log('Run neural network against inputs');
-console.log(n.activate(x));
-
-
   </script>
 </body>
 
