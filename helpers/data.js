@@ -5,11 +5,11 @@ window.DATA = {};
 //  Name, Weight (lbs), Height (in), Gender
 window.DATA.whg = [
   // { name: "Alice",   weight: 133,  height: 65, gender: F },
-  { name: "Alice",   weight: -2,  height: -1, gender: 1 },
+  { name: "Alice",   weight: 133,  height: 65, gender: 1 },
   // { name: "Bob",     weight: 160,  height: 72,  gender: M },
-  { name: "Bob",     weight: 25,  height: 6,  gender: 0 },
+  { name: "Bob",     weight: 160,  height: 72,  gender: 0 },
   // { name: "Charlie", weight: 152,  height: 70,  gender: M },
-  { name: "Charlie", weight: 17,  height: 4,  gender: 0 },
+  { name: "Charlie", weight: 152,  height: 70,  gender: 0 },
   // { name: "Diana",   weight: 120, height: 60, gender: F },
-  { name: "Diana",   weight: -15, height: -6, gender: 1 },
+  { name: "Diana",   weight: 135, height: 60, gender: 1 },
 ];

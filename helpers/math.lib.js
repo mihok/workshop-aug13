@@ -8,6 +8,12 @@ const nrand = __webpack_require__(1)
 // deviation.
 window.Math.nrand = nrand;
 
+window.shifter = function ( y ) {
+  return function ( x ) {
+    return x - y;
+  }
+}
+
 // Our sigmoid function that takes in an number and returns a number between 0
 // and 1.
 window.Math.sigmoid = function ( x ) {
@@ -35,6 +41,32 @@ window.Math.meanSquaredError = function ( answers, predictions ) {
 
   return (1 / answers.length) * sum;
 }
+
+
+
+// Network Trainer Derivative 
+//
+
+class Trainer {
+  static multiply(...inputs) {
+    return inputs.reduce((prev, current) => current * prev);
+  }
+
+  static lossPartialDeriv(yanswer, ypred) {
+    return -2 * (yanswer - ypred);
+  }
+
+  static outputPartialDeriv(weight, sum) {
+    return weight * Math.derivSigmoid(sum);
+  }
+
+  static hiddenPartialDeriv(input, sum) {
+    return input * Math.derivSigmoid(sum);
+  }
+
+}
+
+window.Trainer = Trainer;
 
 
 /***/ }),
